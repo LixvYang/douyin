@@ -26,6 +26,8 @@ create table `user` (
 	`follower_count` int not null default '0' COMMENT '用户的粉丝总数',
 	`follow_count` int not null default '0' COMMENT '用户的关注数量',
 	primary key (`id`)
+--	UNIQUE INDEX `id` (`id`) USING BTREE,
+--	UNIQUE INDEX `username` (`username`) USING BTREE
 ) ENGINE = InnoDB default CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '用户表';
 
 INSERT INTO `user` VALUES (1, '罹心', '123456', 1, 1);
@@ -36,6 +38,7 @@ create table `user_follow` (
 	`id` int UNSIGNED not null auto_increment COMMENT '自增ID',
 	`user_id` int UNSIGNED NOT NULL COMMENT '用户ID',
 	`follow_id` int UNSIGNED not null default '0' COMMENT '关注的用户ID',
+	`is_follow` tinyint(1) default '0' COMMENT '是否关注 1:关注 0:取消关注',
 	`create_time` varchar(20) default null COMMENT '创建时间',
 	-- `update_time` timestamp default null COMMENT '更新时间',
 	primary key(`id`)
@@ -80,7 +83,7 @@ INSERT INTO `users_like_video` VALUES (1, 1, 1, 1);
 INSERT INTO `users_like_video` VALUES (2, 3, 1, 1);
 
 -- 添加评论video_id 对应video_id的外键索引
--- alter table comment add FOREIGN KEY commpent_video_fk_1 (video_id) REFERENCES video (id);
+-- alter table comment add FOREIGN KEY comment_video_fk_1 (video_id) REFERENCES video (id);
 -- 添加用户喜欢的外键索引
 -- alter table users_like_video add FOREIGN KEY userslike_user_fk_id (user_id) REFERENCES user (id);
 -- alter table users_like_video add FOREIGN KEY userslike_video_fk_id (video_id) REFERENCES video (id);

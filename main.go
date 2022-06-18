@@ -7,9 +7,10 @@ import (
 	"os/signal"
 	"syscall"
 	"tiktok/model"
+	"tiktok/pkg/middleware"
+	"tiktok/pkg/redis"
 	"tiktok/routes"
 	"tiktok/utils"
-	"tiktok/pkg/redis"
 
 	"github.com/gin-gonic/gin"
 )
@@ -17,13 +18,23 @@ import (
 func main() {
 	signalch := make(chan os.Signal, 1)
 	
+	// 启动MySQL数据库
 	model.InitDb()
+	// 启动Redis数据库
 	redis.InitRedis()
+	// Gin框架初始化
 	r := gin.New()
+	if err := r.SetTrustedProxies(nil); err != nil {
+		log.Println(err)
+	}
 	gin.SetMode(utils.AppMode)
   go routes.InitRouter(
 		// cores
 		r,
+		middleware.Cors(),
+		middleware.Log(),
+		gin.Recovery(),
+		gin.Logger(),
 	)
 
 	go func() {

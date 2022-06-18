@@ -10,7 +10,6 @@ import (
 	"tiktok/api/v1/video"
 
 	"github.com/gin-gonic/gin"
-	"tiktok/pkg/middleware"
 )
 
 func InitRouter(r *gin.Engine, mw ...gin.HandlerFunc) *gin.Engine {
@@ -20,8 +19,7 @@ func InitRouter(r *gin.Engine, mw ...gin.HandlerFunc) *gin.Engine {
 		中间件
 	*/
 	gin.ForceConsoleColor()
-	r.Use(gin.Recovery(), gin.Logger(), middleware.Cors(), middleware.Log())
-
+	r.Use(mw...)
 	r.NoRoute(func(c *gin.Context) {
 		c.String(http.StatusNotFound, "The incorrect API route.")
 	})

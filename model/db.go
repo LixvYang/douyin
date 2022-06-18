@@ -17,7 +17,7 @@ var db *gorm.DB
 var err error
 
 func InitDb() {
-	dns := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8mb4&parseTime=True&loc=Local",
+	dns := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?parseTime=True&loc=Local",
 		utils.DbUser,
 		utils.DbPassWord,
 		utils.DbHost,

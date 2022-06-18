@@ -11,8 +11,6 @@ import (
 	"tiktok/pkg/redis"
 	"time"
 
-	// "time"
-
 	"github.com/gin-gonic/gin"
 )
 
